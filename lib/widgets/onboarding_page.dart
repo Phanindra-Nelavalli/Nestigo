@@ -12,11 +12,36 @@ class OnboardingPage extends StatelessWidget {
     return Scaffold(
       body: Container(
         color: AppColors.primary,
+        width: double.infinity,
         child: SafeArea(
           child: Column(
             children: [
               SizedBox(height: 60.h),
-              Image.asset(content.image, height: 300.h, fit: BoxFit.contain),
+              Image.asset(content.image, height: 250.h, fit: BoxFit.contain),
+              SizedBox(height: 60.h),
+              Text(
+                content.title,
+                style: TextStyle(
+                  color: AppColors.surface,
+                  fontSize: 26.sp,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 0.5,
+                ),
+              ),
+              SizedBox(height: 16.h),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 50.w),
+                child: Text(
+                  content.description,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: AppColors.surface.withOpacity(0.8),
+                    height: 1.5,
+                    fontSize: 17.sp,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
             ],
           ),
         ),

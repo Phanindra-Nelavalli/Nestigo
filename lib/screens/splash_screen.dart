@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       } else {
         if (context.mounted) {
-          context.pushReplacement('/login');
+          context.pushReplacement('/onboarding');
         }
       }
     } catch (e) {
