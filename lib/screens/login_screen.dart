@@ -146,7 +146,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(height: 21.h),
-                CustomButton(text: "Sign In", onPressed: () {}, height: 56.h),
+                CustomButton(
+                  text: "Sign In",
+                  onPressed: _handleLogin,
+                  height: 56.h,
+                ),
                 SizedBox(height: 21.h),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -159,7 +163,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     TextButton(
-                      onPressed: _handleLogin,
+                      onPressed: () {},
                       style: TextButton.styleFrom(
                         foregroundColor: AppColors.primary,
                         padding: EdgeInsets.symmetric(horizontal: 8.w),
@@ -195,7 +199,7 @@ class _LoginScreenState extends State<LoginScreen> {
         );
         if (mounted && user != null) {
           context.go(
-            user.role == UserRole.landlord ? '/landlord/dashbord' : '/home',
+            user.role == UserRole.landlord ? '/landlord/dashboard' : '/home',
           );
         }
       } catch (e) {
