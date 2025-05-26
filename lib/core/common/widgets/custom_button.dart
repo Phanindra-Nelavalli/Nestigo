@@ -41,13 +41,12 @@ class CustomButton extends StatelessWidget {
         ),
         child: isLoading
             ? SizedBox(
-                width: 24.w,
-                height: 24.w,
+                width: 30.w,
+                height: 30.w,
                 child: CircularProgressIndicator(
-                  strokeWidth: 2.5,
-                  valueColor: AlwaysStoppedAnimation<Color>(
-                    textColor ?? AppColors.surface,
-                  ),
+                  strokeWidth: 3.5,
+                  color: AppColors.primary,
+                  
                 ),
               )
             : Text(

@@ -5,6 +5,7 @@ import 'package:nestigo/screens/chat_screen.dart';
 import 'package:nestigo/screens/landlord/landlord_bookings_screen.dart';
 import 'package:nestigo/screens/landlord/landlord_profile_screen.dart';
 import 'package:nestigo/screens/landlord/landlord_properties_screen.dart';
+import 'package:nestigo/screens/register_screen.dart';
 import 'package:nestigo/screens/user/bookings_list_screen.dart';
 import 'package:nestigo/screens/user/favorites_screen.dart';
 import 'package:nestigo/screens/user/home_screen.dart';
@@ -31,6 +32,11 @@ final router = GoRouter(
       path: '/login',
       name: 'login',
       builder: (context, state) => LoginScreen(),
+    ),
+    GoRoute(
+      path: '/register',
+      name: 'register',
+      builder: (context, state) => RegisterScreen(),
     ),
     ShellRoute(
       builder:

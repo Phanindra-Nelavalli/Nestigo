@@ -146,10 +146,15 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 SizedBox(height: 21.h),
-                CustomButton(
-                  text: "Sign In",
-                  onPressed: _handleLogin,
+                AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
                   height: 56.h,
+                  width: double.infinity,
+                  child: CustomButton(
+                    text: "Sign In",
+                    onPressed: _handleLogin,
+                    isLoading: _isLoading,
+                  ),
                 ),
                 SizedBox(height: 21.h),
                 Row(
@@ -163,7 +168,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                     ),
                     TextButton(
-                      onPressed: () {},
+                      onPressed: () => context.push('/register'),
                       style: TextButton.styleFrom(
                         foregroundColor: AppColors.primary,
                         padding: EdgeInsets.symmetric(horizontal: 8.w),
