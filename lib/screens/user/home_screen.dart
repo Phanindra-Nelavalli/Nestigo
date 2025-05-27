@@ -3,8 +3,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:nestigo/core/common/widgets/custom_text_field.dart';
 import 'package:nestigo/core/constants/color_constants.dart';
 import 'package:nestigo/core/constants/text_constants.dart';
+import 'package:nestigo/model/property_model.dart';
 import 'package:nestigo/widgets/banner_carousel.dart';
 import 'package:nestigo/widgets/home_app_bar.dart';
+import 'package:nestigo/widgets/property_card.dart';
+import 'package:nestigo/widgets/section_title.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -70,6 +73,35 @@ class HomeScreen extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(top: 16.h),
                 child: BannerCarousel(),
+              ),
+            ),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.only(top:16.h,right: 16.w,left: 16.w),
+                child: SectionTitle(
+                  title: "Popular Properties",
+                  actionText: "see more",
+                  onActionPressed: () {},
+                ),
+              ),
+            ),
+            SliverPadding(
+              padding: EdgeInsets.all(16.w),
+              sliver: SliverGrid(
+                delegate: SliverChildBuilderDelegate(
+                  childCount: PropertyModel.dummyProperties.length,
+                  (context, index) {
+                    final property = PropertyModel.dummyProperties[index];
+                    return PropertyCard(property: property, onTap: () {});
+                  },
+                ),
+
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 16.h,
+                  crossAxisSpacing: 10.w,
+                  childAspectRatio: 0.64,
+                ),
               ),
             ),
           ],
