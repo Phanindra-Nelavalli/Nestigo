@@ -57,7 +57,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
           options: CarouselOptions(
             height: 180.h,
             viewportFraction: 0.9,
-            autoPlay: true,
+            autoPlay: false,
             autoPlayInterval: Duration(seconds: 2),
             autoPlayAnimationDuration: Duration(milliseconds: 800),
             autoPlayCurve: Curves.fastOutSlowIn,
