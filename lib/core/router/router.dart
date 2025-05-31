@@ -58,7 +58,11 @@ final router = GoRouter(
           path: '/bookings',
           builder: (context, state) => BookingsListScreen(),
         ),
-        GoRoute(path: '/chats', builder: (context, state) => ChatScreen()),
+        GoRoute(
+          path: '/chats',
+          builder:
+              (context, state) => ChatScreen(isLandlord: false, userId: '1'),
+        ),
         GoRoute(path: '/profile', builder: (context, state) => ProfileScreen()),
       ],
     ),
@@ -81,7 +85,8 @@ final router = GoRouter(
         ),
         GoRoute(
           path: '/landlord/chats',
-          builder: (context, state) => ChatScreen(),
+          builder:
+              (context, state) => ChatScreen(isLandlord: true, userId: '2'),
         ),
         GoRoute(
           path: '/landlord/profile',
