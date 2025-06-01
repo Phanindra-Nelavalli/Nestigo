@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 import 'package:nestigo/landlord_layout.dart';
 import 'package:nestigo/main_layout.dart';
+import 'package:nestigo/model/user_model.dart';
 import 'package:nestigo/screens/chat_screen.dart';
 import 'package:nestigo/screens/forgot_password_screen.dart';
 import 'package:nestigo/screens/landlord/landlord_bookings_screen.dart';
@@ -63,7 +64,18 @@ final router = GoRouter(
           builder:
               (context, state) => ChatScreen(isLandlord: false, userId: '1'),
         ),
-        GoRoute(path: '/profile', builder: (context, state) => ProfileScreen()),
+        GoRoute(
+          path: '/profile',
+          builder:
+              (context, state) => ProfileScreen(
+                user: UserModel(
+                  id: '1',
+                  fullName: "John Doe",
+                  email: "johndoe@gmail.com",
+                  role: UserRole.tenant,
+                ),
+              ),
+        ),
       ],
     ),
     ShellRoute(
