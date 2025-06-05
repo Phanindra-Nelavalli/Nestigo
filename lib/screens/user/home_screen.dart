@@ -4,6 +4,7 @@ import 'package:nestigo/core/common/widgets/custom_text_field.dart';
 import 'package:nestigo/core/constants/color_constants.dart';
 import 'package:nestigo/core/constants/text_constants.dart';
 import 'package:nestigo/model/property_model.dart';
+import 'package:nestigo/screens/property_details_screen.dart';
 import 'package:nestigo/widgets/banner_carousel.dart';
 import 'package:nestigo/widgets/home_app_bar.dart';
 import 'package:nestigo/widgets/property_card.dart';
@@ -77,7 +78,7 @@ class HomeScreen extends StatelessWidget {
             ),
             SliverToBoxAdapter(
               child: Padding(
-                padding: EdgeInsets.only(top:16.h,right: 16.w,left: 16.w),
+                padding: EdgeInsets.only(top: 16.h, right: 16.w, left: 16.w),
                 child: SectionTitle(
                   title: "Popular Properties",
                   actionText: "see more",
@@ -92,10 +93,21 @@ class HomeScreen extends StatelessWidget {
                   childCount: PropertyModel.dummyProperties.length,
                   (context, index) {
                     final property = PropertyModel.dummyProperties[index];
-                    return PropertyCard(property: property, onTap: () {});
+                    return PropertyCard(
+                      property: property,
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder:
+                                (context) =>
+                                    PropertyDetailsScreen(property: property),
+                          ),
+                        );
+                      },
+                    );
                   },
                 ),
-
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   mainAxisSpacing: 16.h,
