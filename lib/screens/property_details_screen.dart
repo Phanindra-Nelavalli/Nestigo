@@ -1,9 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:nestigo/core/common/widgets/custom_button.dart';
 import 'package:nestigo/core/constants/color_constants.dart';
 import 'package:nestigo/model/property_model.dart';
+import 'package:nestigo/model/rating_model.dart';
+import 'package:nestigo/widgets/review_card.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PropertyDetailsScreen extends StatefulWidget {
   final PropertyModel property;
@@ -15,7 +21,17 @@ class PropertyDetailsScreen extends StatefulWidget {
 
 class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
   int currentImage = 0;
+  bool isFavourite = false;
+  bool isSaved = false;
   late final List<Map<String, dynamic>> info;
+  late final LatLng _location = LatLng(
+    widget.property.latitude,
+    widget.property.longitude,
+  );
+  late final Iterable<RatingModel> ratings;
+
+  // ignore: unused_field
+  late GoogleMapController? _mapController;
 
   @override
   void initState() {
@@ -25,30 +41,52 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
       {'icon': Icons.bed_outlined, 'label': '2 Beds'},
       {'icon': Icons.bathtub_outlined, 'label': '3 Baths'},
     ];
+    ratings = RatingModel.dummyRatings.where(
+      (rating) => rating.propertyId == widget.property.id,
+    );
+  }
+
+  Future<void> _openGoogleMaps() async {
+    final url = Uri.parse(
+      'https://www.google.com/maps/search/?api=1&query=${_location.latitude},${_location.longitude}',
+    );
+    if (await canLaunchUrl(url)) {
+      launchUrl(url);
+    } else {
+      ScaffoldMessenger.of(
+        // ignore: use_build_context_synchronously
+        context,
+      ).showSnackBar(SnackBar(content: Text('Could not open Google Maps')));
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Column(
-        children: [
-          _buildImageContainer(),
-          SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildImageContainer(),
+            Padding(
+              padding: EdgeInsets.only(left: 16.w, right: 16.w, bottom: 16.h),
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildImagesListView(),
                   SizedBox(height: 10.h),
                   _buildHeading(),
                   SizedBox(height: 8.h),
+                  _buildFacilities(),
+                  SizedBox(height: 10.h),
                   _buildInfo(),
+                  SizedBox(height: 10.h),
+                  CustomButton(text: "Book Now", onPressed: () {}, height: 60),
                 ],
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -120,26 +158,37 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                   children: [
                     IconButton(
                       icon: Icon(
-                        Icons.favorite_border,
-                        color: Colors.black,
+                        isFavourite ? Icons.favorite : Icons.favorite_border,
+                        color: isFavourite ? Colors.red : Colors.black,
                         size: 21.sp,
                       ),
                       style: IconButton.styleFrom(
                         backgroundColor: AppColors.surface.withOpacity(0.5),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          isFavourite = !isFavourite;
+                        });
+                      },
                     ),
                     SizedBox(width: 5.w),
                     IconButton(
                       icon: Icon(
-                        Icons.bookmark_border,
-                        color: Colors.black,
+                        isSaved ? Icons.bookmark : Icons.bookmark_border,
+                        color:
+                            isSaved
+                                ? AppColors.primary
+                                : Colors.black,
                         size: 21.sp,
                       ),
                       style: IconButton.styleFrom(
                         backgroundColor: AppColors.surface.withOpacity(0.5),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          isSaved = !isSaved;
+                        });
+                      },
                     ),
                   ],
                 ),
@@ -216,7 +265,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
               Text(
                 widget.property.title,
                 style: TextStyle(
-                  fontSize: 20.sp,
+                  fontSize: 24.sp,
                   fontWeight: FontWeight.w600,
                   color: AppColors.textPrimary,
                   height: 1.3,
@@ -224,7 +273,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              SizedBox(height: 6.h),
+              SizedBox(height: 4.h),
               Text(
                 widget.property.location,
                 style: TextStyle(
@@ -254,7 +303,7 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
     );
   }
 
-  Widget _buildInfo() {
+  Widget _buildFacilities() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: List.generate(
@@ -288,6 +337,110 @@ class _PropertyDetailsScreenState extends State<PropertyDetailsScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildInfo() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          "Description",
+          style: TextStyle(
+            fontSize: 21.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        SizedBox(height: 6.h),
+        Text(
+          widget.property.description,
+          style: TextStyle(
+            fontSize: 16.sp,
+            color: AppColors.textSecondary,
+            letterSpacing: 0.5,
+          ),
+        ),
+        SizedBox(height: 10.h),
+        Text(
+          "Location",
+          style: TextStyle(
+            fontSize: 21.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        SizedBox(height: 6.h),
+        SizedBox(
+          height: 175.h,
+          child: GoogleMap(
+            initialCameraPosition: CameraPosition(
+              target: _location,
+              zoom: 15.0,
+            ),
+            onMapCreated: (controller) => _mapController = controller,
+            markers: {
+              Marker(
+                markerId: MarkerId(widget.property.id),
+                position: _location,
+                infoWindow: InfoWindow(
+                  title: widget.property.title,
+                  snippet: widget.property.location,
+                  onTap: _openGoogleMaps,
+                ),
+              ),
+            },
+          ),
+        ),
+        SizedBox(height: 10.h),
+        Text(
+          "Ratings & Reviews",
+          style: TextStyle(
+            fontSize: 21.sp,
+            fontWeight: FontWeight.w700,
+            color: AppColors.textPrimary,
+          ),
+        ),
+        SizedBox(height: 6.h),
+        Row(
+          children: [
+            Text(
+              widget.property.averageRating.toStringAsFixed(1),
+              style: TextStyle(
+                fontSize: 38.sp,
+                color: AppColors.primary,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            SizedBox(width: 5.w),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                RatingBarIndicator(
+                  rating: widget.property.averageRating,
+                  itemCount: 5,
+                  itemSize: 14.sp,
+                  direction: Axis.horizontal,
+                  itemBuilder:
+                      (context, index) => Icon(Icons.star, color: Colors.amber),
+                ),
+                Text(
+                  '${widget.property.numberOfRatings} reviews',
+                  style: TextStyle(
+                    color: AppColors.textSecondary,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+        SizedBox(height: 6.h),
+        ...List.generate(
+          ratings.length,
+          (index) => ReviewCard(rating: ratings.toList()[index]),
+        ),
+      ],
     );
   }
 }

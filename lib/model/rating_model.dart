@@ -23,7 +23,8 @@ class RatingModel {
       userId: '1',
       userName: 'Alice Johnson',
       rating: 4.5,
-      comment: 'Great place, very clean and well-maintained!',
+      comment:
+          'Great place, very clean and well-maintained! The room was spotless, and the amenities were top-notch. The check-in process was smooth, and the staff was welcoming and helpful throughout the stay.',
       timeStamp: DateTime.now().subtract(Duration(days: 1)),
     ),
     RatingModel(
@@ -32,7 +33,8 @@ class RatingModel {
       userId: '2',
       userName: 'Bob Smith',
       rating: 3.0,
-      comment: 'Decent experience, but the wifi was slow.',
+      comment:
+          'Decent experience, but the wifi was slow. The location is good, and the surroundings are peaceful. However, connectivity issues made it difficult to work remotely. Room service was a bit delayed too.',
       timeStamp: DateTime.now().subtract(Duration(days: 3)),
     ),
     RatingModel(
@@ -41,7 +43,8 @@ class RatingModel {
       userId: '3',
       userName: 'Catherine Lee',
       rating: 5.0,
-      comment: 'Absolutely amazing! Will visit again.',
+      comment:
+          'Absolutely amazing! Will visit again. The ambiance, comfort, and attention to detail exceeded my expectations. I especially loved the garden area where I could relax and read. Highly recommended!',
       timeStamp: DateTime.now().subtract(Duration(hours: 6)),
     ),
     RatingModel(
@@ -50,7 +53,8 @@ class RatingModel {
       userId: '4',
       userName: 'David Kim',
       rating: 2.5,
-      comment: 'Had some issues with the plumbing.',
+      comment:
+          'Had some issues with the plumbing. The water pressure was low, and hot water wasn’t available consistently. Although the staff tried to help, the problem persisted during my stay. The overall vibe felt a bit neglected.',
       timeStamp: DateTime.now().subtract(Duration(days: 7)),
     ),
     RatingModel(
@@ -59,7 +63,8 @@ class RatingModel {
       userId: '5',
       userName: 'Ella Patel',
       rating: 4.0,
-      comment: 'Friendly staff and good location.',
+      comment:
+          'Friendly staff and good location. I really appreciated how responsive the team was to our requests. The property is located near shops and restaurants, which made our stay convenient and enjoyable.',
       timeStamp: DateTime.now().subtract(Duration(days: 2)),
     ),
   ];

@@ -243,8 +243,8 @@ class PropertyModel {
         'https://images.unsplash.com/photo-1560184897-ae75f418493e?w=800&h=600&fit=crop',
         'https://images.unsplash.com/photo-1560185007-cde436f6a4d0?w=800&h=600&fit=crop',
       ],
-      latitude: 40.7505,
-      longitude: -73.9934,
+      latitude: 16.5661,
+      longitude: 81.5225,
       type: 'Condo',
       isAvailable: true,
       description:
