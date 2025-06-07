@@ -1,9 +1,20 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:label="nestigo"
         android:name="${applicationName}"
         android:enableOnBackInvokedCallback="true"
         android:icon="@mipmap/ic_launcher">
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyDI17etusoRFkhqkVqO1QIEcOmCd9oMWXE"
+        />
+        <meta-data
+            android:name="com.google.android.gms.maps.DEPRECATED_LOGGING_ENABLED"
+            android:value="false"
+        />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
